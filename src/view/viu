@@ -1,0 +1,13 @@
+package view;
+
+import java.io.IOException;
+import java.util.Scanner;
+import controller.control;
+public class viu {
+    public static void main(String[] args) throws IOException {
+        Scanner leia = new Scanner(System.in);
+        System.out.println("Digite o nome do market ");
+        String market = leia.nextLine();
+        control.leituraArquivo(market);
+}
+}
