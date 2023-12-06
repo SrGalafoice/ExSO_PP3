@@ -1,0 +1,59 @@
+package controller;
+
+import java.io.*;
+
+public class control {
+    static String[] id;
+    static String[] vetorMarket;
+    static String dir;
+    static String arq = "trades.json";
+    static String[] funds;
+    static String[] created;
+    public static void leituraArquivo(String market) throws IOException {
+        descobresistema();
+        File picanha = new File(dir, arq);
+        if (picanha.exists() && picanha.isFile()){
+            FileInputStream fluxo = new FileInputStream(picanha);
+            InputStreamReader leitor = new InputStreamReader(fluxo);
+            BufferedReader buffer = new BufferedReader(leitor);
+            String linha = buffer.readLine();
+
+            while (linha != null){
+                vetorMarket = linha.split(",");
+                linha = buffer.readLine();
+            }
+
+            if (vetorMarket[1].contains(market)){
+            separaemostra();
+        }else System.out.println("MARKET INVALIDO");
+        } else System.out.println("ARQUIVO NÃO ENCONTRADO");
+    }
+
+    private static void separaemostra() {
+        for (String coizo : vetorMarket){
+            if (coizo.contains("id")){
+                id = coizo.split(":");
+                if (id[1].contains("null")){
+                    id[1] = null;
+                } else System.out.println("Market de id: " + id[1]+":");
+            }
+            if (coizo.contains("funds")){
+                funds = coizo.split(":");
+                System.out.println("- funds: " + funds[1]);
+            }
+            if (coizo.contains("created_at")){
+                created = coizo.split(":",2);
+                System.out.println("- created_at: " + created[1]);
+            }
+        }
+    }
+
+    private static void descobresistema() {
+        String os = System.getProperty("os.name");
+        if (os.contains("Windows")){
+            dir = "C:\\TEMP";
+        } else dir = "\\tmp";
+
+    }
+
+}
